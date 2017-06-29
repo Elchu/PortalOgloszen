@@ -1,56 +1,72 @@
 ﻿@model Repozytory.Models.Ogloszenie
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Lista ogłoszeń";
+    ViewBag.Opis = "Opis do 160 znaków";
+    ViewBag.SlowaKluczowe = "Słowa kluczowe, ogłoszenie, usługa";
 }
 
-<h2>Delete</h2>
+<h2>Usuń ogłoszenie nr: @Model.OgloszenieId</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Ogloszenie</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Uzytkownik.Email)
-        </dt>
+<h4>Czy jesteś pewien, że chcesz usunąć ogłoszenie nr: @Model.OgloszenieId?</h4>
+<hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.Uzytkownik.Email)
-        </dd>
+<div class="row">
+    <div class="col-lg-4">
+        <br />
+        <img src="@Url.Content("/Content/Images/deletePicture.png")" width="256" hight="256" alt="Alternate Text" />
+    </div>
+    <div class="col-lg-8">
+        <h4>Ogloszenie nr: @Model.OgloszenieId</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Uzytkownik.Email)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Tresc)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Uzytkownik.Email)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Tresc)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Tresc)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Tytul)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Tresc)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Tytul)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Tytul)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DataDodania)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Tytul)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DataDodania)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DataDodania)
+            </dt>
 
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.DataDodania)
+            </dd>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        </dl>
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <a href="@Url.Action("Index", "Ogloszenie", null)" class="btn btn-default">
+                    <span class="glyphicon glyphicon-arrow-left"></span>  Wróć do listy
+                </a>
+                |
+                <button type="submit" class="btn btn-warning" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"> Usuń</span>
+                </button>
+            </div>
+        }
+    </div>
 </div>

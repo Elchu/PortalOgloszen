@@ -4,9 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <meta name="description" content="@ViewBag.Opis" />
+    <meta name="keywords" content="@ViewBag.SlowaKluczowe" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @RenderSection("styles", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -33,7 +35,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Portal ogłoszeń</p>
         </footer>
     </div>
 
