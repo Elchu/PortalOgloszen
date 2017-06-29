@@ -8,6 +8,14 @@
 
 <h2>Usuń ogłoszenie nr: @Model.OgloszenieId</h2>
 
+@if (ViewBag.Error == true)
+{
+    <div class="alert alert-danger" role="alert">
+        Wystąpił błąd podczas usuwania.<br />
+        Spróbuj ponownie.
+    </div>
+}
+
 <h4>Czy jesteś pewien, że chcesz usunąć ogłoszenie nr: @Model.OgloszenieId?</h4>
 <hr />
 
@@ -63,10 +71,19 @@
                     <span class="glyphicon glyphicon-arrow-left"></span>  Wróć do listy
                 </a>
                 |
-                <button type="submit" class="btn btn-warning" aria-label="Left Align">
+                <button type="submit" class="btn btn-warning confirmation" aria-label="Left Align">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"> Usuń</span>
                 </button>
             </div>
         }
     </div>
 </div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(".confirmation").on("click",
+            function() {
+                return confirm("Czy na pewno chcesz usunąć?");
+            });
+    </script>
+}
