@@ -1,7 +1,10 @@
-﻿namespace Repozytory.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Repozytory.Models
 {
     public class OgloszenieKategoria
     {
+        [Key]
         public int OgloszenieKategoriaId { get; set; }
 
         public int KategoriaId { get; set; }

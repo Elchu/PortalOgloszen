@@ -5,6 +5,7 @@ namespace Repozytory.Models
 {
     public class Ogloszenie
     {
+        [Key]
         [Display(Name = "Id:")] // using System.ComponentModel.DataAnnotations;
         public int OgloszenieId { get; set; }
 

@@ -110,6 +110,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201706291436440_start.cs" />
+    <Compile Include="Migrations\201706291436440_start.Designer.cs">
+      <DependentUpon>201706291436440_start.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Uzytkownik.cs" />
     <Compile Include="Models\Kategoria.cs" />
     <Compile Include="Models\OgloszeniaContext.cs" />
@@ -117,6 +122,11 @@
     <Compile Include="Models\OgloszenieKategoria.cs" />
     <Compile Include="Models\Views\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706291436440_start.resx">
+      <DependentUpon>201706291436440_start.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
