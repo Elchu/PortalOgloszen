@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace PortalOgloszen.Models
+namespace Repozytory.Models.Views
 {
     public class ExternalLoginConfirmationViewModel
     {
