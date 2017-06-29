@@ -4,12 +4,13 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Repozytory.IRepo;
 
 namespace Repozytory.Models
 {
 
 
-    public class OgloszeniaContext : IdentityDbContext
+    public class OgloszeniaContext : IdentityDbContext, IOgloszeniaContext
     {
         public OgloszeniaContext()
             : base("DefaultConnection")

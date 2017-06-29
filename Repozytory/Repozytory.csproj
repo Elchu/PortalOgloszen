@@ -110,6 +110,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRepo\IOgloszeniaContext.cs" />
+    <Compile Include="IRepo\IOgloszenieRepo.cs" />
     <Compile Include="Migrations\201706291436440_start.cs" />
     <Compile Include="Migrations\201706291436440_start.Designer.cs">
       <DependentUpon>201706291436440_start.cs</DependentUpon>
@@ -122,12 +124,14 @@
     <Compile Include="Models\OgloszenieKategoria.cs" />
     <Compile Include="Models\Views\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repo\OgloszenieRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201706291436440_start.resx">
       <DependentUpon>201706291436440_start.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
