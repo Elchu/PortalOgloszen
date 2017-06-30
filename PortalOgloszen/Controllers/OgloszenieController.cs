@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Repozytory.IRepo;
 using Repozytory.Models;
 
@@ -20,14 +21,12 @@ namespace PortalOgloszen.Controllers
             _repo = repo;
         }
 
-        // GET: Ogloszenie
         public ActionResult Index()
         {
             var ogloszenia = _repo.PobierzOgloszenia();
             return View(ogloszenia.ToList());
         }
 
-        // GET: Ogloszenie/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -42,65 +41,74 @@ namespace PortalOgloszen.Controllers
             return View(ogloszenie);
         }
 
-        //// GET: Ogloszenie/Create
-        //public ActionResult Create()
-        //{
-        //    ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email");
-        //    return View();
-        //}
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Ogloszenie/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "OgloszenieId,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Ogloszenia.Add(ogloszenie);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Tresc,Tytul")] Ogloszenie ogloszenie)
+        {
+            if (ModelState.IsValid)
+            {
+                ogloszenie.UzytkownikId = User.Identity.GetUserId();
+                ogloszenie.DataDodania = DateTime.Now;
+                try
+                {
+                    _repo.DodajOgloszenie(ogloszenie);
+                    _repo.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+                    return View(ogloszenie);
+                }
+            }
 
-        //    ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
-        //    return View(ogloszenie);
-        //}
+            return View(ogloszenie);
+        }
 
-        //// GET: Ogloszenie/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Ogloszenie ogloszenie = db.Ogloszenia.Find(id);
-        //    if (ogloszenie == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
-        //    return View(ogloszenie);
-        //}
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int) id);
+            if (ogloszenie == null)
+            {
+                return HttpNotFound();
+            }
 
-        //// POST: Ogloszenie/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "OgloszenieId,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(ogloszenie).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.UzytkownikId = new SelectList(db.Users, "Id", "Email", ogloszenie.UzytkownikId);
-        //    return View(ogloszenie);
-        //}
+            return View(ogloszenie);
+        }
 
-        // GET: Ogloszenie/Delete/5
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "OgloszenieId,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _repo.Aktualizuj(ogloszenie);
+                    _repo.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    ViewBag.Error = true;
+                    return View(ogloszenie);
+                }
+
+                ViewBag.Error = false;
+                return View(ogloszenie);
+            }
+            return View(ogloszenie);
+        }
+
         public ActionResult Delete(int? id, bool? error)
         {
             if (id == null)
@@ -118,7 +126,6 @@ namespace PortalOgloszen.Controllers
             return View(ogloszenie);
         }
 
-        // POST: Ogloszenie/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

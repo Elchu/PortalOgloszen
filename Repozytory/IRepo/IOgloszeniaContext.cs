@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using Repozytory.Models;
 
 namespace Repozytory.IRepo
@@ -11,6 +12,7 @@ namespace Repozytory.IRepo
         DbSet<OgloszenieKategoria> OgloszenieKategoria { get; set; }
 
         int SaveChanges();
+        DbEntityEntry Entry(object entity);
         Database Database { get; }
     }
 }

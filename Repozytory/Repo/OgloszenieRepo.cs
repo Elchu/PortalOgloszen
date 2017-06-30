@@ -17,7 +17,7 @@ namespace Repozytory.Repo
 
         public IQueryable<Ogloszenie> PobierzOgloszenia()
         {
-            return _db.Ogloszenia.Include(u => u.Uzytkownik);
+            return _db.Ogloszenia.Include(u => u.Uzytkownik).OrderByDescending(d => d.DataDodania);
         }
 
         public Ogloszenie GetOgloszenieById(int id)
@@ -25,11 +25,21 @@ namespace Repozytory.Repo
             return _db.Ogloszenia.Find(id);
         }
 
+        public void DodajOgloszenie(Ogloszenie ogloszenie)
+        {
+            _db.Ogloszenia.Add(ogloszenie);
+        }
+
         public void UsunOgloszenie(int id)
         {
             UsunOgloszeniaZKategoriiOgloszen(id);
             Ogloszenie ogloszenie = GetOgloszenieById(id);
             _db.Ogloszenia.Remove(ogloszenie);
+        }
+
+        public void Aktualizuj(Ogloszenie ogloszenie)
+        {
+            _db.Entry(ogloszenie).State = EntityState.Modified;
         }
 
         public void SaveChanges()
