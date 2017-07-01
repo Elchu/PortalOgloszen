@@ -70,6 +70,7 @@ namespace PortalOgloszen.Controllers
             return View(ogloszenie);
         }
 
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,9 +78,15 @@ namespace PortalOgloszen.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ogloszenie ogloszenie = _repo.GetOgloszenieById((int) id);
+
             if (ogloszenie == null)
             {
                 return HttpNotFound();
+            }
+
+            if (ogloszenie.UzytkownikId != User.Identity.GetUserId() && !(User.IsInRole("Admin") || User.IsInRole("Pracownik")))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             return View(ogloszenie);
@@ -109,17 +116,26 @@ namespace PortalOgloszen.Controllers
             return View(ogloszenie);
         }
 
+        [Authorize]
         public ActionResult Delete(int? id, bool? error)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Ogloszenie ogloszenie = _repo.GetOgloszenieById((int) id);
+
             if (ogloszenie == null)
             {
                 return HttpNotFound();
             }
+
+            if (User.Identity.GetUserId() != ogloszenie.UzytkownikId || !(User.IsInRole("Admin")))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             if (error != null)
                 ViewBag.Error = true;
 

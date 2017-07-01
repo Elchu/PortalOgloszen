@@ -46,29 +46,57 @@ namespace Repozytory.Migrations
 
         private void SeedRoles(OgloszeniaContext context)
         {
-            var roleManager = new RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(new RoleStore<IdentityRole>());
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>());
 
             if (!roleManager.RoleExists("Admin"))
             {
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Admin";
+                var role = new IdentityRole {Name = "Admin"};
                 roleManager.Create(role);
             }
+
+            if (!roleManager.RoleExists("Pracownik"))
+            {
+                var role = new IdentityRole {Name = "Pracownik"};
+                roleManager.Create(role);
+            }
+
         }
 
         private void SeedUsers(OgloszeniaContext context)
         {
             var store = new UserStore<Uzytkownik>(context);
             var manager = new UserManager<Uzytkownik>(store);
-            if (!context.Users.Any(u => u.UserName == "Admin"))
+            if (!context.Users.Any(u => u.UserName == "admin@admin.pl"))
             {
 
-                var user = new Uzytkownik { UserName = "Admin", Email = "admin@admin.pl" };
+                var user = new Uzytkownik { UserName = "admin@admin.pl", Email = "admin@admin.pl" };
 
                 var adminresult = manager.Create(user, "12345678");
 
                 if (adminresult.Succeeded)
                     manager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "prezes@gmail.com"))
+            {
+
+                var user = new Uzytkownik { UserName = "prezes@gmial.com", Email = "prezes@gmial.com" };
+
+                var adminresult = manager.Create(user, "12345678");
+
+                if (adminresult.Succeeded)
+                    manager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "pracownik@gmail.com"))
+            {
+
+                var user = new Uzytkownik { UserName = "pracownik@gmial.com", Email = "pracownik@gmial.com" };
+
+                var adminresult = manager.Create(user, "12345678");
+
+                if (adminresult.Succeeded)
+                    manager.AddToRole(user.Id, "Pracownik");
             }
         }
 

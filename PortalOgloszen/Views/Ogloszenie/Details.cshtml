@@ -1,4 +1,5 @@
-﻿@model Repozytory.Models.Ogloszenie
+﻿@using Microsoft.AspNet.Identity
+@model Repozytory.Models.Ogloszenie
 
 @{
     ViewBag.Title = "Szczegóły ogłoszenia nr" + Model.OgloszenieId;
@@ -54,11 +55,12 @@
             <a href="@Url.Action("Index", "Ogloszenie", null)" class="btn btn-default">
                 <span class="glyphicon glyphicon-arrow-left"></span>  Wróć do listy
             </a>
-            |
-            <a href="@Url.Action("Edit", "Ogloszenie", new {id = Model.OgloszenieId})" class="btn btn-info">
-                <span class="glyphicon glyphicon-pencil"></span> Edytuj
-            </a>
-
+            @if (User.Identity.GetUserId() == Model.UzytkownikId || User.IsInRole("Admin") || User.IsInRole("Pracownik"))
+            {
+                <span>|</span>
+                <a href="@Url.Action("Edit", "Ogloszenie", new {id = Model.OgloszenieId})" class="btn btn-info">
+                <span class="glyphicon glyphicon-pencil"></span> Edytuj</a>
+            }
         </p>
     </div>
 </div>
