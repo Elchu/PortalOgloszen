@@ -19,6 +19,7 @@ namespace PortalOgloszen.Controllers
         public OgloszenieController(IOgloszenieRepo repo)
         {
             _repo = repo;
+
         }
 
         public ActionResult Index()
@@ -43,14 +44,18 @@ namespace PortalOgloszen.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie(), "KategoriaId", "Nazwa");
             return View();
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Tresc,Tytul")] Ogloszenie ogloszenie)
+        public ActionResult Create([Bind(Include = "Tresc,Tytul")] Ogloszenie ogloszenie, int? KategoriaId)
         {
+            if (!KategoriaId.HasValue)
+                ModelState.AddModelError("KategoriaId", "Musisz wybrać kategorię");
+
             if (ModelState.IsValid)
             {
                 ogloszenie.UzytkownikId = User.Identity.GetUserId();
@@ -59,6 +64,8 @@ namespace PortalOgloszen.Controllers
                 {
                     _repo.DodajOgloszenie(ogloszenie);
                     _repo.SaveChanges();
+                    _repo.DodajOgloszenieDoKategorii(ogloszenie.OgloszenieId, (int)KategoriaId);
+                    _repo.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 catch (Exception)
@@ -66,7 +73,7 @@ namespace PortalOgloszen.Controllers
                     return View(ogloszenie);
                 }
             }
-
+            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie(), "KategoriaId", "Nazwa");
             return View(ogloszenie);
         }
 

@@ -4,7 +4,7 @@ using Repozytory.Models;
 
 namespace Repozytory.IRepo
 {
-    public interface IOgloszeniaContext
+    public interface IPortalOgloszenContext
     {
         DbSet<Kategoria> Kategorie { get; set; }
         DbSet<Ogloszenie> Ogloszenia { get; set; }

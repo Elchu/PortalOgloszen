@@ -8,9 +8,9 @@ namespace Repozytory.Repo
 {
     public class OgloszenieRepo : IOgloszenieRepo
     {
-        private readonly IOgloszeniaContext _db;
+        private readonly IPortalOgloszenContext _db;
         
-        public OgloszenieRepo(IOgloszeniaContext db)
+        public OgloszenieRepo(IPortalOgloszenContext db)
         {
             _db = db;
         }
@@ -57,5 +57,20 @@ namespace Repozytory.Repo
             }
         }
 
+        public void DodajOgloszenieDoKategorii(int ogloszenieId, int kategoriaId)
+        {
+            OgloszenieKategoria ogloszenieKategoria = new OgloszenieKategoria()
+            {
+                OgloszenieId = ogloszenieId,
+                KategoriaId = kategoriaId
+            };
+
+            _db.OgloszenieKategoria.Add(ogloszenieKategoria);
+        }
+
+        public IQueryable<Kategoria> PobierzKategorie()
+        {
+            return _db.Kategorie;
+        }
     }
 }

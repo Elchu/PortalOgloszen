@@ -10,7 +10,7 @@ namespace Repozytory.Models
 {
 
 
-    public class OgloszeniaContext : IdentityDbContext, IOgloszeniaContext
+    public class OgloszeniaContext : IdentityDbContext, IPortalOgloszenContext
     {
         public OgloszeniaContext()
             : base("DefaultConnection")

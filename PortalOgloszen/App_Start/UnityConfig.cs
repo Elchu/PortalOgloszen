@@ -44,7 +44,8 @@ namespace PortalOgloszen.App_Start
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<ManageController>(new InjectionConstructor());
             container.RegisterType<IOgloszenieRepo, OgloszenieRepo>(new PerRequestLifetimeManager());
-            container.RegisterType<IOgloszeniaContext, OgloszeniaContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IPortalOgloszenContext, OgloszeniaContext>(new PerRequestLifetimeManager());
+            container.RegisterType<IKategoriaRepo, KategoriaRepo>(new PerRequestLifetimeManager());
 
         }
     }
