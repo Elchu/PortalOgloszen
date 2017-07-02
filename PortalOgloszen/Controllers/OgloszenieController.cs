@@ -23,11 +23,30 @@ namespace PortalOgloszen.Controllers
 
         }
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string orderSort)
         {
             int aktualnaStrona = page ?? 1;
             int naStronie = 5;
+
+            //potrzebne do stronicowania, zeby zachowac aktualne sortowanie
+            ViewBag.CurrentSort = orderSort;
+            ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
+
             var ogloszenia = _repo.PobierzOgloszenia();
+
+            switch (orderSort)
+            {
+                case "DataDodaniaAsc":
+                    ogloszenia = ogloszenia.OrderBy(d => d.DataDodania);
+                    break;
+                case "DataDodaniaDesc":
+                    ogloszenia = ogloszenia.OrderByDescending(d => d.DataDodania);
+                    break;
+                default:
+                    ogloszenia = ogloszenia.OrderBy(d => d.DataDodania);
+                    break;
+            }
+
             return View(ogloszenia.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
 

@@ -10,7 +10,6 @@ namespace Repozytory.IRepo
         void DodajOgloszenie(Ogloszenie ogloszenie);
         void UsunOgloszenie(int id);
         void Aktualizuj(Ogloszenie ogloszenie);
-        IQueryable<Ogloszenie> PobierzStrone(int? page, int? pageSize);
         IQueryable<Kategoria> PobierzKategorie();
         void DodajOgloszenieDoKategorii(int ogloszenieId, int kategoriaId);
         void SaveChanges();
