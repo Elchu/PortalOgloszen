@@ -42,6 +42,12 @@ namespace Repozytory.Repo
             _db.Entry(ogloszenie).State = EntityState.Modified;
         }
 
+        public IQueryable<Ogloszenie> PobierzStrone(int? page = 1, int? pageSize = 10)
+        {
+            IQueryable<Ogloszenie> ogloszenia = _db.Ogloszenia.OrderByDescending(d => d.DataDodania).Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value);
+            return ogloszenia;
+        }
+
         public void SaveChanges()
         {
             _db.SaveChanges();

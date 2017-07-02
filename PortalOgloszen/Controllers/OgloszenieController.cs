@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Repozytory.IRepo;
 using Repozytory.Models;
+using PagedList;
 
 namespace PortalOgloszen.Controllers
 {
@@ -22,10 +23,12 @@ namespace PortalOgloszen.Controllers
 
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int aktualnaStrona = page ?? 1;
+            int naStronie = 5;
             var ogloszenia = _repo.PobierzOgloszenia();
-            return View(ogloszenia.ToList());
+            return View(ogloszenia.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
 
         public ActionResult Details(int? id)

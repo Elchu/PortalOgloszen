@@ -1,5 +1,6 @@
-﻿@using Microsoft.AspNet.Identity
-@model IEnumerable<Repozytory.Models.Ogloszenie>
+﻿@model PagedList.IPagedList<Repozytory.Models.Ogloszenie>
+@using Microsoft.AspNet.Identity
+@using PagedList.Mvc
 
 @{
     ViewBag.Title = "Lista ogłoszeń";
@@ -9,6 +10,7 @@
 
 @section styles {
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/PagedList.css")">
 }
 
 <h2>Lista ogłoszeń</h2>
@@ -25,7 +27,7 @@
 
 @foreach (var item in Model)
 {
-    <div class="col-sm-8 col-lg-offset-2">
+    <div class="col-sm-8 col-sm-offset-2">
         <div class="panel panel-white post panel-shadow">
             <div class="post-heading">
                 <div class="pull-left image">
@@ -69,5 +71,12 @@
         </div>
     </div>
 }
-    
+
+</div>@*row*@
+
+<div class="row text-center">
+    <br />
+    Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
+    
+
