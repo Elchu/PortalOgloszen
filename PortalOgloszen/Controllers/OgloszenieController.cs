@@ -66,7 +66,7 @@ namespace PortalOgloszen.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie(), "KategoriaId", "Nazwa");
+            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie().AsNoTracking(), "KategoriaId", "Nazwa");
             return View();
         }
 
