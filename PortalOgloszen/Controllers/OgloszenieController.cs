@@ -88,7 +88,7 @@ namespace PortalOgloszen.Controllers
                     _repo.SaveChanges();
                     _repo.DodajOgloszenieDoKategorii(ogloszenie.OgloszenieId, (int)KategoriaId);
                     _repo.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MojeOgloszenia");
                 }
                 catch (Exception)
                 {
@@ -186,6 +186,38 @@ namespace PortalOgloszen.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public ActionResult MojeOgloszenia(int? page, string orderSort)
+        {
+            int aktualnaStrona = page ?? 1;
+            int naStronie = 5;
+            string userId = User.Identity.GetUserId();
+
+            if (String.IsNullOrEmpty(userId))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.CurrentSort = orderSort;
+            ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
+
+            var ogloszeniaUzytkownika = _repo.PobierzOgloszeniaUzytkownikaPoId(userId);
+
+            switch (orderSort)
+            {
+                case "DataDodaniaDesc":
+                    ogloszeniaUzytkownika = ogloszeniaUzytkownika.OrderByDescending(d => d.DataDodania);
+                    break;
+                default:
+                    ogloszeniaUzytkownika = ogloszeniaUzytkownika.OrderBy(d => d.DataDodania);
+                    break;
+            }
+
+            var listaOgloszenUzytkownika= ogloszeniaUzytkownika.ToList();
+
+            return View(listaOgloszenUzytkownika.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
 
         //protected override void Dispose(bool disposing)

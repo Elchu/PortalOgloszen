@@ -72,5 +72,10 @@ namespace Repozytory.Repo
         {
             return _db.Kategorie;
         }
+
+        public IQueryable<Ogloszenie> PobierzOgloszeniaUzytkownikaPoId(string userId)
+        {
+            return PobierzOgloszenia().Where(u => u.UzytkownikId == userId);
+        }
     }
 }

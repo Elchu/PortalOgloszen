@@ -29,7 +29,8 @@
                         <ul class="dropdown-menu">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <li>@Html.ActionLink("Dodaj ogłoszenie", "Create", "Ogloszenie")</li>    
+                                <li>@Html.ActionLink("Dodaj ogłoszenie", "Create", "Ogloszenie")</li>
+                                <li>@Html.ActionLink("Moje ogłoszenia", "MojeOgloszenia", "Ogloszenie")</li>
                             }
 
                             <li>@Html.ActionLink("Lista ogłoszeń", "Index", "Ogloszenie")</li>

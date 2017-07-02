@@ -1,0 +1,77 @@
+﻿@model PagedList.IPagedList<Repozytory.Models.Ogloszenie>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Moje ogłoszenia";
+    ViewBag.Opis = "Opis do 160 znaków";
+    ViewBag.SlowaKluczowe = "Słowa kluczowe, ogłoszenie, usługa";
+    int counter = 0;
+}
+
+@section styles {
+
+}
+
+<h2>Moje ogłoszenia</h2>
+<hr/>
+<div class="row">
+    <div class="col-sm-8 col-md-offset-2">
+        <div class="pull-left">
+            @Html.ActionLink("+ Dodaj nowe ogłoszenie", "Create", null, new {@class = "btn btn-primary btn-xs text-left"})            
+        </div>
+        
+        <div class="pull-right">
+            @if (ViewBag.DataSortowaniaRosnaco == "DataDodaniaAsc")
+            {
+                <p>
+                    <span class="glyphicon glyphicon-chevron-down">Data malejąco</span> 
+                    <span> | </span>
+                    @Html.ActionLink("Data rosnąco", "MojeOgloszenia", new { orderSort = "DataDodaniaAsc" })    
+                </p>
+            }
+            else if(ViewBag.DataSortowaniaRosnaco == "DataDodaniaDesc")
+            {
+                <p>
+                    @Html.ActionLink("Data malejąco", "MojeOgloszenia", new { orderSort = "DataDodaniaDesc" })
+                    <span> | </span>
+                    <span class="glyphicon glyphicon-chevron-up">Data rosnąco</span>    
+                </p>
+            }
+
+        </div>
+
+        <table class="table table-striped custab">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tytuł</th>
+                <th>Data dodania</th>
+                <th class="text-center">Akcje</th>
+            </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(++counter)</td>
+                    <td>@Html.DisplayFor(model => item.Tytul)</td>
+                    <td>@item.DataDodania</td>
+                    <td class="text-center">
+                        <a class='btn btn-info btn-xs' href="@Url.Action("Edit", "Ogloszenie", new {id = item.OgloszenieId})">
+                            <span class="glyphicon glyphicon-edit"></span> Edytuj
+                        </a>
+                        <a href="@Url.Action("Details", "Ogloszenie", new {id = item.OgloszenieId})" class="btn btn-warning btn-xs">
+                            <span class="glyphicon glyphicon-zoom-in"></span> Szczegóły
+                        </a>
+                        <a href="@Url.Action("Delete", "Ogloszenie", new {id = item.OgloszenieId})" class="btn btn-danger btn-xs">
+                            <span class="glyphicon glyphicon-remove"></span> Usuń
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="row text-center">
+    <br />
+    Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount @Html.PagedListPager(Model, page => Url.Action("MojeOgloszenia", new { page, orderSort = ViewBag.CurrentSort }))
+</div>
