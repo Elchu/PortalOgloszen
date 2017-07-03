@@ -214,6 +214,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KategorieController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OgloszenieController.cs" />
     <Compile Include="Global.asax.cs">
@@ -315,6 +316,8 @@
     <Content Include="Views\Ogloszenie\Edit.cshtml" />
     <Content Include="Views\Ogloszenie\Index.cshtml" />
     <Content Include="Views\Ogloszenie\MojeOgloszenia.cshtml" />
+    <Content Include="Views\Kategorie\Index.cshtml" />
+    <Content Include="Views\Kategorie\PokazOgloszenia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

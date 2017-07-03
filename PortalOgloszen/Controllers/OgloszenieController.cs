@@ -16,13 +16,10 @@ namespace PortalOgloszen.Controllers
     public class OgloszenieController : Controller
     {
         private readonly IOgloszenieRepo _repo;
-        //private readonly IKategoriaRepo _repoKategoria;
 
-        public OgloszenieController(IOgloszenieRepo repo/*, IKategoriaRepo repoKat*/)
+        public OgloszenieController(IOgloszenieRepo repo)
         {
             _repo = repo;
-            //_repoKategoria = repoKat;
-
         }
 
         public ActionResult Index(int? page, string orderSort)
@@ -200,11 +197,13 @@ namespace PortalOgloszen.Controllers
             return View(listaOgloszenUzytkownika.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
 
+
+
         //protected override void Dispose(bool disposing)
         //{
         //    if (disposing)
         //    {
-        //        db.Dispose();
+        //        _db.Dispose();
         //    }
         //    base.Dispose(disposing);
         //}
