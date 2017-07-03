@@ -16,10 +16,12 @@ namespace PortalOgloszen.Controllers
     public class OgloszenieController : Controller
     {
         private readonly IOgloszenieRepo _repo;
+        //private readonly IKategoriaRepo _repoKategoria;
 
-        public OgloszenieController(IOgloszenieRepo repo)
+        public OgloszenieController(IOgloszenieRepo repo/*, IKategoriaRepo repoKat*/)
         {
             _repo = repo;
+            //_repoKategoria = repoKat;
 
         }
 
@@ -33,7 +35,6 @@ namespace PortalOgloszen.Controllers
             ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
 
             var ogloszenia = _repo.PobierzOgloszenia(orderSort);
-
             return View(ogloszenia.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
 

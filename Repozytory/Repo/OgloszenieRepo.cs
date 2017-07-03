@@ -28,7 +28,7 @@ namespace Repozytory.Repo
                     ogloszenia = ogloszenia.OrderBy(d => d.DataDodania);
                     break;
             }
-
+            
             return ogloszenia.ToList();
         }
 

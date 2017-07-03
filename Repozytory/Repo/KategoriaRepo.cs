@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Repozytory.IRepo;
 using Repozytory.Models;
 
@@ -13,9 +14,9 @@ namespace Repozytory.Repo
             _db = db;
         }
 
-        public IQueryable<Kategoria> PobierzKategorie()
+        public IEnumerable<Kategoria> PobierzKategorie()
         {
-            return _db.Kategorie;
+            return _db.Kategorie.ToList();
         }
 
         public Kategoria GetKategoriaById(int id)
