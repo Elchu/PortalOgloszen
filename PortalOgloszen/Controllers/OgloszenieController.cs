@@ -112,8 +112,11 @@ namespace PortalOgloszen.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OgloszenieId,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie)
+        public ActionResult Edit([Bind(Include = "OgloszenieId,Tresc,Tytul,DataDodania,UzytkownikId")] Ogloszenie ogloszenie, int? KategoriaId)
         {
+            if (!KategoriaId.HasValue)
+                ModelState.AddModelError("KategoriaId", "Musisz wybrać kategorię");
+
             if (ModelState.IsValid)
             {
                 try
@@ -130,6 +133,7 @@ namespace PortalOgloszen.Controllers
                 ViewBag.Error = false;
                 return View(ogloszenie);
             }
+
             return View(ogloszenie);
         }
 

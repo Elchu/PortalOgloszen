@@ -39,7 +39,7 @@ else if(ViewBag.Error == false)
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.OgloszenieId)
-                
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.Tytul, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -58,7 +58,6 @@ else if(ViewBag.Error == false)
                 
                 @Html.Hidden("UzytkownikId", Model.UzytkownikId)
                 @Html.Hidden("DataDodania", Model.DataDodania.ToString(CultureInfo.InvariantCulture))
-
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
