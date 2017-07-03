@@ -32,20 +32,7 @@ namespace PortalOgloszen.Controllers
             ViewBag.CurrentSort = orderSort;
             ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
 
-            var ogloszenia = _repo.PobierzOgloszenia();
-
-            switch (orderSort)
-            {
-                case "DataDodaniaAsc":
-                    ogloszenia = ogloszenia.OrderBy(d => d.DataDodania);
-                    break;
-                case "DataDodaniaDesc":
-                    ogloszenia = ogloszenia.OrderByDescending(d => d.DataDodania);
-                    break;
-                default:
-                    ogloszenia = ogloszenia.OrderBy(d => d.DataDodania);
-                    break;
-            }
+            var ogloszenia = _repo.PobierzOgloszenia(orderSort);
 
             return View(ogloszenia.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
@@ -203,17 +190,7 @@ namespace PortalOgloszen.Controllers
             ViewBag.CurrentSort = orderSort;
             ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
 
-            var ogloszeniaUzytkownika = _repo.PobierzOgloszeniaUzytkownikaPoId(userId);
-
-            switch (orderSort)
-            {
-                case "DataDodaniaDesc":
-                    ogloszeniaUzytkownika = ogloszeniaUzytkownika.OrderByDescending(d => d.DataDodania);
-                    break;
-                default:
-                    ogloszeniaUzytkownika = ogloszeniaUzytkownika.OrderBy(d => d.DataDodania);
-                    break;
-            }
+            var ogloszeniaUzytkownika = _repo.PobierzOgloszeniaUzytkownikaPoId(userId, orderSort);
 
             var listaOgloszenUzytkownika= ogloszeniaUzytkownika.ToList();
 

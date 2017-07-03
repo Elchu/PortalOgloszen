@@ -15,9 +15,20 @@ namespace Repozytory.Repo
             _db = db;
         }
 
-        public IQueryable<Ogloszenie> PobierzOgloszenia()
+        public IQueryable<Ogloszenie> PobierzOgloszenia(string orderSort)
         {
-            return _db.Ogloszenia.Include(u => u.Uzytkownik);
+            var ogloszenia = _db.Ogloszenia.Include(u => u.Uzytkownik);
+            switch (orderSort)
+            {
+                case "DataDodaniaDesc":
+                    ogloszenia = ogloszenia.OrderByDescending(d => d.DataDodania);
+                    break;
+                default:
+                    ogloszenia = ogloszenia.OrderBy(d => d.DataDodania);
+                    break;
+            }
+
+            return ogloszenia;
         }
 
         public Ogloszenie GetOgloszenieById(int id)
@@ -73,9 +84,9 @@ namespace Repozytory.Repo
             return _db.Kategorie;
         }
 
-        public IQueryable<Ogloszenie> PobierzOgloszeniaUzytkownikaPoId(string userId)
+        public IQueryable<Ogloszenie> PobierzOgloszeniaUzytkownikaPoId(string userId, string orderSort)
         {
-            return PobierzOgloszenia().Where(u => u.UzytkownikId == userId);
+            return PobierzOgloszenia(orderSort).Where(u => u.UzytkownikId == userId);
         }
     }
 }
