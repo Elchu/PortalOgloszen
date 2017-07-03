@@ -53,7 +53,7 @@ namespace PortalOgloszen.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie().AsNoTracking(), "KategoriaId", "Nazwa");
+            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie(), "KategoriaId", "Nazwa");
             return View();
         }
 
@@ -190,9 +190,7 @@ namespace PortalOgloszen.Controllers
             ViewBag.CurrentSort = orderSort;
             ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
 
-            var ogloszeniaUzytkownika = _repo.PobierzOgloszeniaUzytkownikaPoId(userId, orderSort);
-
-            var listaOgloszenUzytkownika= ogloszeniaUzytkownika.ToList();
+            var listaOgloszenUzytkownika = _repo.PobierzOgloszeniaUzytkownikaPoId(userId, orderSort);
 
             return View(listaOgloszenUzytkownika.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }

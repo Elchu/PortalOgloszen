@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Repozytory.IRepo;
 using Repozytory.Models;
@@ -15,7 +16,7 @@ namespace Repozytory.Repo
             _db = db;
         }
 
-        public IQueryable<Ogloszenie> PobierzOgloszenia(string orderSort)
+        public IEnumerable<Ogloszenie> PobierzOgloszenia(string orderSort)
         {
             var ogloszenia = _db.Ogloszenia.Include(u => u.Uzytkownik);
             switch (orderSort)
@@ -28,7 +29,7 @@ namespace Repozytory.Repo
                     break;
             }
 
-            return ogloszenia;
+            return ogloszenia.ToList();
         }
 
         public Ogloszenie GetOgloszenieById(int id)
@@ -79,14 +80,14 @@ namespace Repozytory.Repo
             _db.OgloszenieKategoria.Add(ogloszenieKategoria);
         }
 
-        public IQueryable<Kategoria> PobierzKategorie()
+        public IEnumerable<Kategoria> PobierzKategorie()
         {
-            return _db.Kategorie;
+            return _db.Kategorie.AsNoTracking().ToList();
         }
 
-        public IQueryable<Ogloszenie> PobierzOgloszeniaUzytkownikaPoId(string userId, string orderSort)
+        public IEnumerable<Ogloszenie> PobierzOgloszeniaUzytkownikaPoId(string userId, string orderSort)
         {
-            return PobierzOgloszenia(orderSort).Where(u => u.UzytkownikId == userId);
+            return PobierzOgloszenia(orderSort).Where(u => u.UzytkownikId == userId).ToList();
         }
     }
 }
