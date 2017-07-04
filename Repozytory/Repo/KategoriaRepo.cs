@@ -19,21 +19,21 @@ namespace Repozytory.Repo
             return _db.Kategorie.ToList();
         }
 
-        public IEnumerable<Ogloszenie> PobierzOgloszeniaZKategorii(int id)
+        public IEnumerable<Ogloszenie> PobierzOgloszeniaZKategorii(int idKategorii)
         {
             var ogloszenia = (from o in _db.Ogloszenia
-                join k in _db.OgloszenieKategoria on o.OgloszenieId equals k.OgloszenieId
-                join u in _db.Uzytkownik on o.UzytkownikId equals u.Id
-                where k.KategoriaId == id
-                select o).ToList();
-            
+                              join k in _db.OgloszenieKategoria on o.OgloszenieId equals k.OgloszenieId
+                              join u in _db.Uzytkownik on o.UzytkownikId equals u.Id
+                              where k.KategoriaId == idKategorii
+                              select o).ToList();
+
 
             return ogloszenia;
         }
 
-        public Kategoria GetKategoriaById(int id)
+        public Kategoria GetKategoriaById(int idKategorii)
         {
-            return _db.Kategorie.Find(id);
+            return _db.Kategorie.Find(idKategorii);
         }
 
         public void SaveChanges()

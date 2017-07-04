@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRepo\IKategoriaRepo.cs" />
+    <Compile Include="IRepo\IOgloszenieKategoriaRepo.cs" />
     <Compile Include="IRepo\IPortalOgloszenContext.cs" />
     <Compile Include="IRepo\IOgloszenieRepo.cs" />
     <Compile Include="Migrations\201706291436440_start.cs" />
@@ -125,8 +126,10 @@
     <Compile Include="Models\OgloszenieKategoria.cs" />
     <Compile Include="Models\Views\AccountViewModels.cs" />
     <Compile Include="Models\Views\OgloszeniaZKategoriiViewModels.cs" />
+    <Compile Include="Models\Views\OgloszenieKategoriaViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\KategoriaRepo.cs" />
+    <Compile Include="Repo\OgloszenieKategoriaRepo.cs" />
     <Compile Include="Repo\OgloszenieRepo.cs" />
   </ItemGroup>
   <ItemGroup>

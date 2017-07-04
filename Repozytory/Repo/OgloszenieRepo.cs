@@ -68,7 +68,7 @@ namespace Repozytory.Repo
                 _db.OgloszenieKategoria.Remove(item);
             }
         }
-
+        //TODO zabezpieczyc przed dodawaniem drugi raz tego samego ogloszenia do kategorii
         public void DodajOgloszenieDoKategorii(int ogloszenieId, int kategoriaId)
         {
             OgloszenieKategoria ogloszenieKategoria = new OgloszenieKategoria()

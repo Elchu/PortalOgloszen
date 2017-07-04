@@ -7,8 +7,8 @@ namespace Repozytory.IRepo
     public interface IKategoriaRepo
     {
         IEnumerable<Kategoria> PobierzKategorie();
-        IEnumerable<Ogloszenie> PobierzOgloszeniaZKategorii(int id);
-        Kategoria GetKategoriaById(int id);
+        IEnumerable<Ogloszenie> PobierzOgloszeniaZKategorii(int idKategorii);
+        Kategoria GetKategoriaById(int idKategorii);
         void SaveChanges();
     }
 }
