@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNet.Identity
+@model Repozytory.Models.Ogloszenie
+
+<div class="col-sm-8 col-sm-offset-2">
+    <div class="panel panel-white post panel-shadow">
+        <div class="post-heading">
+            <div class="pull-left image">
+                <img src="@Url.Content("/Content/Images/user.jpg")" class="img-circle avatar" alt="user profile image">
+            </div>
+            <div class="pull-left meta">
+                <div class="title h5">
+                    <a href="#"><b>@Model.Uzytkownik.UserName</b></a>
+                </div>
+                <h6 class="text-muted time">@Model.DataDodania</h6>
+            </div>
+            <div class="pull-right meta">
+                <div class="title h5">
+
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Pracownik") || User.Identity.GetUserId() == Model.UzytkownikId))
+                    {
+                        <a href="@Url.Action("Edit", "Ogloszenie", new {id = Model.OgloszenieId})" alt="Edytuj" title="Edytuj" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+
+                        if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Delete", "Ogloszenie", new {id = Model.OgloszenieId})" alt="Usuń" title="Usuń" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        }
+                    }
+
+                    <a href="@Url.Action("Details", "Ogloszenie", new {id = Model.OgloszenieId})" alt="Szczegóły" title="Szczegóły" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="post-description">
+            <h4>@Model.Tytul</h4>
+            <p>@Model.Tresc</p>
+            <div class="stats">
+                <a href="#" class="btn btn-default stat-item">
+                    <i class="fa fa-thumbs-up icon"></i>2
+                </a>
+                <a href="#" class="btn btn-default stat-item">
+                    <i class="fa fa-thumbs-down icon"></i>12
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

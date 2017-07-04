@@ -318,6 +318,7 @@
     <Content Include="Views\Ogloszenie\MojeOgloszenia.cshtml" />
     <Content Include="Views\Kategorie\Index.cshtml" />
     <Content Include="Views\Kategorie\PokazOgloszenia.cshtml" />
+    <Content Include="Views\Shared\_ListaOgloszenPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
