@@ -21,24 +21,24 @@
         {
             <p>
                 <a href="@Url.Action("Create", "Ogloszenie", null)" alt="Dodaj ogłoszenie" title="Dodaj ogłoszenie" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj ogłoszenie</a>
-            </p>    
-        }        
+            </p>
+        }
     </div>
     <div class="col-sm-6 text-right">
         @if (ViewBag.DataSortowaniaRosnaco == "DataDodaniaAsc")
         {
             <p>
-                <span class="glyphicon glyphicon-chevron-down">Data malejąco</span> 
+                <span class="glyphicon glyphicon-chevron-down">Data malejąco</span>
                 <span> | </span>
-                @Html.ActionLink("Data rosnąco", "Index", new { orderSort = "DataDodaniaAsc" })    
+                @Html.ActionLink("Data rosnąco", "Index", new { orderSort = "DataDodaniaAsc" })
             </p>
         }
-        else if(ViewBag.DataSortowaniaRosnaco == "DataDodaniaDesc")
+        else if (ViewBag.DataSortowaniaRosnaco == "DataDodaniaDesc")
         {
             <p>
                 @Html.ActionLink("Data malejąco", "Index", new { orderSort = "DataDodaniaDesc" })
                 <span> | </span>
-                <span class="glyphicon glyphicon-chevron-up">Data rosnąco</span>    
+                <span class="glyphicon glyphicon-chevron-up">Data rosnąco</span>
             </p>
         }
 
@@ -47,12 +47,12 @@
 
 
 <div class="row">
-    
 
-@foreach (var item in Model)
-{
-    Html.RenderPartial("_ListaOgloszenPartial", item);
-}
+
+    @foreach (var item in Model)
+    {
+        Html.RenderPartial("_ListaOgloszenPartial", item);
+    }
 
 </div>@*row*@
 
@@ -60,5 +60,3 @@
     <br />
     Strona @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) z @Model.PageCount @Html.PagedListPager(Model, page => Url.Action("Index", new { page, orderSort = ViewBag.CurrentSort }))
 </div>
-    
-
