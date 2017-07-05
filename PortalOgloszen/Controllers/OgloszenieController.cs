@@ -10,19 +10,23 @@ using Microsoft.AspNet.Identity;
 using Repozytory.IRepo;
 using Repozytory.Models;
 using PagedList;
+using Repozytory.Models.Views;
 
 namespace PortalOgloszen.Controllers
 {
     public class OgloszenieController : Controller
     {
-        private readonly IOgloszenieRepo _repo;
+        private readonly IOgloszenieRepo _repoOgloszenie;
+        private readonly IKategoriaRepo _repoKategoria;
 
-        public OgloszenieController(IOgloszenieRepo repo)
+
+        public OgloszenieController(IOgloszenieRepo repoOgloszenie, IKategoriaRepo repoKategoria)
         {
-            _repo = repo;
+            _repoOgloszenie = repoOgloszenie;
+            _repoKategoria = repoKategoria;
         }
 
-        public ActionResult Index(int? page, string orderSort)
+        public ActionResult Index(int? page, string orderSort = "DataDodaniaDesc")
         {
             int aktualnaStrona = page ?? 1;
             int naStronie = 5;
@@ -31,7 +35,7 @@ namespace PortalOgloszen.Controllers
             ViewBag.CurrentSort = orderSort;
             ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
 
-            var ogloszenia = _repo.PobierzOgloszenia(orderSort);
+            var ogloszenia = _repoOgloszenie.PobierzOgloszenia(orderSort);
             return View(ogloszenia.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
 
@@ -41,7 +45,7 @@ namespace PortalOgloszen.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int) id);
+            Ogloszenie ogloszenie = _repoOgloszenie.GetOgloszenieById((int) id);
             if (ogloszenie == null)
             {
                 return HttpNotFound();
@@ -51,7 +55,7 @@ namespace PortalOgloszen.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie(), "KategoriaId", "Nazwa");
+            ViewBag.KategoriaId = new SelectList(_repoOgloszenie.PobierzKategorie(), "KategoriaId", "Nazwa");
             return View();
         }
 
@@ -69,10 +73,10 @@ namespace PortalOgloszen.Controllers
                 ogloszenie.DataDodania = DateTime.Now;
                 try
                 {
-                    _repo.DodajOgloszenie(ogloszenie);
-                    _repo.SaveChanges();
-                    _repo.DodajOgloszenieDoKategorii(ogloszenie.OgloszenieId, (int)KategoriaId);
-                    _repo.SaveChanges();
+                    _repoOgloszenie.DodajOgloszenie(ogloszenie);
+                    _repoOgloszenie.SaveChanges();
+                    _repoOgloszenie.DodajOgloszenieDoKategorii(ogloszenie.OgloszenieId, (int)KategoriaId);
+                    _repoOgloszenie.SaveChanges();
                     return RedirectToAction("MojeOgloszenia");
                 }
                 catch (Exception)
@@ -80,7 +84,7 @@ namespace PortalOgloszen.Controllers
                     return View(ogloszenie);
                 }
             }
-            ViewBag.KategoriaId = new SelectList(_repo.PobierzKategorie(), "KategoriaId", "Nazwa");
+            ViewBag.KategoriaId = new SelectList(_repoOgloszenie.PobierzKategorie(), "KategoriaId", "Nazwa");
             return View(ogloszenie);
         }
 
@@ -91,7 +95,7 @@ namespace PortalOgloszen.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int) id);
+            Ogloszenie ogloszenie = _repoOgloszenie.GetOgloszenieById((int) id);
 
             if (ogloszenie == null)
             {
@@ -118,8 +122,8 @@ namespace PortalOgloszen.Controllers
             {
                 try
                 {
-                    _repo.Aktualizuj(ogloszenie);
-                    _repo.SaveChanges();
+                    _repoOgloszenie.Aktualizuj(ogloszenie);
+                    _repoOgloszenie.SaveChanges();
                 }
                 catch (Exception)
                 {
@@ -142,7 +146,7 @@ namespace PortalOgloszen.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Ogloszenie ogloszenie = _repo.GetOgloszenieById((int) id);
+            Ogloszenie ogloszenie = _repoOgloszenie.GetOgloszenieById((int) id);
 
             if (ogloszenie == null)
             {
@@ -164,10 +168,10 @@ namespace PortalOgloszen.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            _repo.UsunOgloszenie(id);
+            _repoOgloszenie.UsunOgloszenie(id);
             try
             {
-                _repo.SaveChanges();
+                _repoOgloszenie.SaveChanges();
             }
             catch (Exception)
             {
@@ -192,12 +196,28 @@ namespace PortalOgloszen.Controllers
             ViewBag.CurrentSort = orderSort;
             ViewBag.DataSortowaniaRosnaco = orderSort == "DataDodaniaDesc" ? "DataDodaniaAsc" : "DataDodaniaDesc";
 
-            var listaOgloszenUzytkownika = _repo.PobierzOgloszeniaUzytkownikaPoId(userId, orderSort);
+            var listaOgloszenUzytkownika = _repoOgloszenie.PobierzOgloszeniaUzytkownikaPoId(userId, orderSort);
 
             return View(listaOgloszenUzytkownika.ToPagedList<Ogloszenie>(aktualnaStrona, naStronie));
         }
 
+        public ActionResult SzczegolyOgloszenia(int idOgloszenia, int idKategorii)
+        {
+            if (idOgloszenia < 0 || idKategorii < 0)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
+            var ogloszenie = _repoOgloszenie.GetOgloszenieById(idOgloszenia);
+            var kategorie = _repoKategoria.PobierzKategorie();
+
+            OgloszenieKategoriaViewModels ogloszenieKategoria = new OgloszenieKategoriaViewModels()
+            {
+                Ogloszenie = ogloszenie,
+                Kategoria = kategorie,
+                IdKategoriiDoEdycji = idKategorii
+            };
+
+            return View(ogloszenieKategoria);
+        }
 
         //protected override void Dispose(bool disposing)
         //{

@@ -16,7 +16,7 @@ namespace Repozytory.Repo
             _db = db;
         }
 
-        public IEnumerable<Ogloszenie> PobierzOgloszenia(string orderSort)
+        public IEnumerable<Ogloszenie> PobierzOgloszenia(string orderSort = "DataDodaniaDesc")
         {
             var ogloszenia = _db.Ogloszenia.Include(u => u.Uzytkownik);
             switch (orderSort)
@@ -24,8 +24,11 @@ namespace Repozytory.Repo
                 case "DataDodaniaDesc":
                     ogloszenia = ogloszenia.OrderByDescending(d => d.DataDodania);
                     break;
-                default:
+                case "DataDodaniaAsc":
                     ogloszenia = ogloszenia.OrderBy(d => d.DataDodania);
+                    break;
+                default:
+                    ogloszenia = ogloszenia.OrderByDescending(d => d.DataDodania);
                     break;
             }
             
@@ -68,7 +71,7 @@ namespace Repozytory.Repo
                 _db.OgloszenieKategoria.Remove(item);
             }
         }
-        //TODO zabezpieczyc przed dodawaniem drugi raz tego samego ogloszenia do kategorii
+
         public void DodajOgloszenieDoKategorii(int ogloszenieId, int kategoriaId)
         {
             OgloszenieKategoria ogloszenieKategoria = new OgloszenieKategoria()

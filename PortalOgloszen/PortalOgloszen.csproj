@@ -320,6 +320,7 @@
     <Content Include="Views\Kategorie\PokazOgloszenia.cshtml" />
     <Content Include="Views\Shared\_ListaOgloszenPartial.cshtml" />
     <Content Include="Views\Kategorie\EdytujKategorieOgloszenia.cshtml" />
+    <Content Include="Views\Ogloszenie\SzczegolyOgloszenia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

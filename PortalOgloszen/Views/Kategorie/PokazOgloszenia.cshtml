@@ -41,7 +41,7 @@
                                 }
                             }
 
-                            <a href="@Url.Action("Details", "Ogloszenie", new {id = item.OgloszenieId})" alt="Szczegóły" title="Szczegóły" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a>
+                            <a href="@Url.Action("SzczegolyOgloszenia", "Ogloszenie", new {idOgloszenia = item.OgloszenieId, idKategorii = Model.Kategoria.KategoriaId})" alt="Szczegóły" title="Szczegóły" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNet.Identity
+@model Repozytory.Models.Views.OgloszenieKategoriaViewModels
+
+@{
+    ViewBag.Title = "Szczegóły ogłoszenia nr" + Model.Ogloszenie.OgloszenieId;
+    ViewBag.Opis = "Opis do 160 znaków";
+    ViewBag.SlowaKluczowe = "Słowa kluczowe, ogłoszenie, usługa";
+}
+
+<h2>Szczegóły ogłoszenia z kategorii @Model.Kategoria.First().Nazwa</h2>
+
+<div class="row">
+    <div class="col-lg-4">
+        <br />
+        <img src="@Url.Content("/Content/Images/detailsPicture.png")" width="256" hight="256" alt="Alternate Text" />
+    </div>
+    <div class="col-lg-8">
+        <h4>Ogłoszenie nr: @Model.Ogloszenie.OgloszenieId</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Ogloszenie.Uzytkownik.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ogloszenie.Uzytkownik.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Ogloszenie.Tresc)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ogloszenie.Tresc)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Ogloszenie.Tytul)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ogloszenie.Tytul)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Ogloszenie.DataDodania)
+            </dt>
+
+            <dd>
+                @Model.Ogloszenie.DataDodania
+            </dd>
+
+        </dl>
+        <p>
+            <a href="@Url.Action("Index", "Ogloszenie", null)" class="btn btn-default">
+                <span class="glyphicon glyphicon-arrow-left"></span>  Wróć do listy
+            </a>
+            @if (User.Identity.GetUserId() == Model.Ogloszenie.UzytkownikId || User.IsInRole("Admin") || User.IsInRole("Pracownik"))
+            {
+                <span>|</span>
+                <a href="@Url.Action("EdytujKategorieOgloszenia", "Kategorie", new {idOgloszenia = Model.Ogloszenie.OgloszenieId, idKategorii = Model.Kategoria.First().KategoriaId })" class="btn btn-info">
+                    <span class="glyphicon glyphicon-pencil"></span> Edytuj</a>
+            }
+        </p>
+    </div>
+</div>
+
